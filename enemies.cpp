@@ -2,7 +2,7 @@
 #include "entity.cpp"
 using namespace std;
 
-class enemy : entity
+class enemy : public entity
 {
 public:
     void enemyRoll()
