@@ -1,20 +1,12 @@
 #include <iostream>
-// #include "math.cpp"
-#include "fs.cpp"
+#include "game.cpp"
+
 using namespace std;
 
 int main(){
-    // player* hero = loadSave();
+    gameBoard activeGame; 
 
-    // if (hero != nullptr)
-    // {
-    //     cout<<"Hero Name: "<<hero->getName()<<endl;
-    //     cout<<"Hero Coin: "<<hero->getCoins()<<endl;
-    // }
-
-    // hero->receiveDamage(50);
-
-    // saveProgress(*hero);
+    activeGame.startGame();
 
     return 0;
 }

@@ -117,3 +117,27 @@ public:
         return tempString;
     }
 };
+
+class enemy : public entity
+{
+public:
+    enemy(entityStat stat): entity(stat){};
+
+    void enemyRoll()
+    {
+        rollDice(false);
+    }
+    int enemyTurn(entity target)
+    {
+        this->enemyRoll();
+
+        return attackEntity(target);
+    }
+};
+
+namespace enemyList{
+    enemy* createPapadumSoldier(){
+        entityStat stats = {"Papadum Soldier", 100, 10, 5, 0};
+        return new enemy(stats);
+    }
+}

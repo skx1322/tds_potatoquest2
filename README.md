@@ -7,9 +7,6 @@
 | entity.cpp  | All class related to entity such as player and enemy is here. |
 | display.cpp | Store all function that is used to display stage/dialogue/choice/combat text is here. |
 | math.cpp  | Any function that involves mathematical is to be stored here. |
-| combat.cpp  | Combat and item usage function is stored here. |
 | fs.cpp  | All file system class or function is stored in this file. |
-| player.cpp | To store player class or anything related to player. |
-| enemies.cpp  | To initialize enemies within encounter. |
 | game.cpp | Main game class to begin game, save, load, stage and etc. Also include store class here in encounter. |
 | miscellaneous.cpp | To store various function that is out of other file description focus. |
