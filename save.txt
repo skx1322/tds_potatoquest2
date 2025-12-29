@@ -1,8 +1,8 @@
 Fu Hua
-250
+220
 24
 35
 0
-Health Potion, Lucky Trinket
+Health Potion, Lucky Trinket, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty, Empty
 10
 0

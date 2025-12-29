@@ -2,6 +2,7 @@
 #include "math.cpp"
 #include "header.hpp"
 using namespace std;
+using namespace entitySystem;
 
 class entity
 {
@@ -37,13 +38,18 @@ public:
 
     void rollDice(bool pity)
     {
-        int newRoll = entitySystem::diceRoll(pity);
+        int newRoll = diceRoll(pity);
         this->attributes.entityDice = newRoll;
     };
 
+    int gainHP(int amount){
+        this->attributes.entityHealth += amount;
+        return amount;
+    }
+
     int attackEntity(entity target)
     {
-        int attackDamage = entitySystem::damageCalc(this->getHealth(), this->getDice());
+        int attackDamage = damageCalc(this->getHealth(), this->getDice());
 
         if (attackDamage == 0)
         {
@@ -68,13 +74,24 @@ public:
         this->playerAttribute = pStat;
     }
 
-    int getCoins(){
+    int getCoins()
+    {
         return this->playerAttribute.coins;
-    } 
+    }
+
+    int checkStage()
+    {
+        return this->playerAttribute.currentStage;
+    }
 
     string getInventoryIndex(int index)
     {
-        if (index > this->playerAttribute.inventory->size())
+        if (index < 0 || index >= maxInventory)
+        {
+            throw logic_error("Invalid Capacity.");
+        };
+
+        if (this->playerAttribute.inventory[index].empty())
         {
             return "Empty";
         }
@@ -83,4 +100,20 @@ public:
             return this->playerAttribute.inventory[index];
         };
     };
+
+    string getFullInventory()
+    {
+        string tempString = "";
+        for (int i = 0; i < maxInventory; i++)
+        {
+            tempString += getInventoryIndex(i);
+            if (i < maxInventory - 1)
+            {
+                tempString += ", ";
+            }
+            
+        }
+
+        return tempString;
+    }
 };

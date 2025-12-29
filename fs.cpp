@@ -3,20 +3,18 @@
 #include <sstream>
 #include "entity.cpp"
 // #include "header.hpp"
-
-
 using namespace std;
 
 int convertStringToNum(string numString){
     return stoi(numString);
 }
 
-void loadInv(string line, string invArray[], int maxSlot){
+void loadInv(string line, string* invArray, int maxSlot){
     stringstream ss(line);
     string item;
     int index = 0;
     
-    while (getline(ss, item, ',') && index << maxSlot)
+    while (getline(ss, item, ',') && index < maxSlot)
     {
         size_t first = item.find_first_not_of(' ');
         if (first != string::npos)
@@ -26,9 +24,28 @@ void loadInv(string line, string invArray[], int maxSlot){
         
         invArray[index] = item;
         index++;
-    }
+    }  
+};
+
+void saveProgress(player playerProgress){
+    ofstream saveFile("save.txt");
+
+    if (!saveFile.is_open())
+    {
+        throw system("File not found.");
+    };
     
-}
+    saveFile << playerProgress.getName() << endl;
+    saveFile << playerProgress.getHealth() << endl;
+    saveFile << playerProgress.getDamage() << endl;
+    saveFile << playerProgress.getDefense() << endl;
+    saveFile << playerProgress.getDice() << endl;
+    saveFile << playerProgress.getFullInventory() << endl;
+    saveFile << playerProgress.getCoins() << endl;
+    saveFile << playerProgress.checkStage() << endl;
+
+    saveFile.close();
+};
 
 player* loadSave(){
     ifstream saveFile("save.txt");
@@ -81,3 +98,4 @@ player* loadSave(){
 
     return new player(eStat, pStat);
 }
+

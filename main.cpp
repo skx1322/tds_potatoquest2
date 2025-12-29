@@ -4,14 +4,17 @@
 using namespace std;
 
 int main(){
-    player* hero = loadSave();
+    // player* hero = loadSave();
 
-    if (hero != nullptr)
-    {
-        cout<<"Hero Name: "<<hero->getName()<<endl;
-        cout<<"Hero Coin: "<<hero->getCoins()<<endl;
-    }
-    
+    // if (hero != nullptr)
+    // {
+    //     cout<<"Hero Name: "<<hero->getName()<<endl;
+    //     cout<<"Hero Coin: "<<hero->getCoins()<<endl;
+    // }
+
+    // hero->receiveDamage(50);
+
+    // saveProgress(*hero);
 
     return 0;
 }
