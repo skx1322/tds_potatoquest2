@@ -1,4 +1,6 @@
 #include <iostream>
+#include "fs.cpp"
+
 using namespace std;
 
 namespace gameDisplay
@@ -43,6 +45,8 @@ namespace gameDisplay
                 continue;
             }
         }
+
+        return input;
     };
 
     string createUsername()

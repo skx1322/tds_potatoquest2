@@ -1,8 +1,43 @@
 #include <iostream>
-#include "fs.cpp"
 #include "display.cpp"
 using namespace std;
 using namespace gameDisplay;
+using namespace dataStrucutre;
+using namespace enemyList;
+
+void runCombat(player* activePlayer, enemy* activeEnemy){
+    combatQueue turnQueue;
+    
+    turnQueue.enqueue(activePlayer);
+    turnQueue.enqueue(activeEnemy);
+
+    while (activePlayer->isAlive() && activeEnemy->isAlive())
+    {
+        entity* current = turnQueue.dequeue();
+        if (current == nullptr)
+        {
+            break;
+        }
+        if (current == activePlayer)
+        {
+            cout<<activePlayer->getName()<<" Turns!"<<endl;
+            
+            // placeholder, auto attack for now
+            activePlayer->attackEntity(activeEnemy);
+        } else {
+            cout<<activeEnemy->getName()<<" Turns!"<<endl;
+            activeEnemy->enemyRoll();
+
+            activeEnemy->enemyTurn(activePlayer);
+        }
+        
+        if (current->isAlive())
+        {
+            turnQueue.enqueue(current);
+        }
+    }
+       
+}
 
 class gameBoard
 {
@@ -52,30 +87,10 @@ public:
             newGame();
         };
     }
-};
 
-class combatBoard
-{
-private:
-    player *activePlayer;
-    enemy *activeEnemy;
-    int rounds;
-    bool combatActive;
+    void startTutorial(){
+        enemy* tutorialEnemy = createPapadumSoldier();
 
-public:
-    combatBoard(player *h, enemy *e)
-    {
-        activePlayer = h;
-        activeEnemy = e;
-        rounds = 1;
-        combatActive = true;
-    }
-
-    void initialFight(){
-        enemyTitle(activeEnemy->getName());
-        
-        while (activePlayer->isAlive() && activeEnemy->isAlive()){
-            
-        }
+        runCombat(currentPlayer, tutorialEnemy);
     }
 };

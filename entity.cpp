@@ -2,65 +2,59 @@
 #include "math.cpp"
 #include "header.hpp"
 using namespace std;
-using namespace entitySystem;
+using namespace mathSystem;
 
-class entity
+entity::entity(entityStat stat)
 {
-private:
-    entityStat attributes;
+    this->attributes = stat;
+}
 
-public:
-    entity(entityStat stat)
+string entity::getName() { return this->attributes.entityName; };
+int entity::getHealth() { return this->attributes.entityHealth; };
+int entity::getDamage() { return this->attributes.entityDamage; };
+int entity::getDefense() { return this->attributes.entityDefense; };
+int entity::getDice() { return this->attributes.entityDice; };
+
+bool entity::isAlive()
+{
+    return this->attributes.entityHealth > 0;
+};
+
+int entity::receiveDamage(int amount)
+{
+    int fullDamage = amount - this->getDefense();
+    if (fullDamage < 0)
+        fullDamage = 0;
+
+    this->attributes.entityHealth -= fullDamage;
+    return fullDamage;
+};
+
+void entity::rollDice(bool pity)
+{
+    int newRoll = diceRoll(pity);
+    this->attributes.entityDice = newRoll;
+};
+
+int entity::gainHP(int amount)
+{
+    this->attributes.entityHealth += amount;
+    return amount;
+}
+
+int entity::attackEntity(entity *target)
+{
+    int attackDamage = damageCalc(this->getHealth(), this->getDice());
+
+    if (attackDamage == 0)
     {
-        this->attributes = stat;
+        return attackDamage;
     }
-
-    string getName() { return this->attributes.entityName; };
-    int getHealth() { return this->attributes.entityHealth; };
-    int getDamage() { return this->attributes.entityDamage; };
-    int getDefense() { return this->attributes.entityDefense; };
-    int getDice() { return this->attributes.entityDice; };
-
-    bool isAlive()
+    else
     {
-        return this->attributes.entityHealth > 0;
-    };
-
-    int receiveDamage(int amount)
-    {
-        int fullDamage = amount - this->getDefense();
-        if (fullDamage < 0)
-            fullDamage = 0;
-
-        this->attributes.entityHealth -= fullDamage;
-        return fullDamage;
-    };
-
-    void rollDice(bool pity)
-    {
-        int newRoll = diceRoll(pity);
-        this->attributes.entityDice = newRoll;
-    };
-
-    int gainHP(int amount){
-        this->attributes.entityHealth += amount;
-        return amount;
+        int damageDealt = target->receiveDamage(attackDamage);
+        return attackDamage;
     }
-
-    int attackEntity(entity target)
-    {
-        int attackDamage = damageCalc(this->getHealth(), this->getDice());
-
-        if (attackDamage == 0)
-        {
-            return attackDamage;
-        }
-        else
-        {
-            int damageDealt = target.receiveDamage(attackDamage);
-            return attackDamage;
-        }
-    };
 };
 
 class player : public entity
@@ -111,7 +105,6 @@ public:
             {
                 tempString += ", ";
             }
-            
         }
 
         return tempString;
@@ -121,13 +114,13 @@ public:
 class enemy : public entity
 {
 public:
-    enemy(entityStat stat): entity(stat){};
+    enemy(entityStat stat) : entity(stat) {};
 
     void enemyRoll()
     {
         rollDice(false);
     }
-    int enemyTurn(entity target)
+    int enemyTurn(entity *target)
     {
         this->enemyRoll();
 
@@ -135,8 +128,10 @@ public:
     }
 };
 
-namespace enemyList{
-    enemy* createPapadumSoldier(){
+namespace enemyList
+{
+    enemy *createPapadumSoldier()
+    {
         entityStat stats = {"Papadum Soldier", 100, 10, 5, 0};
         return new enemy(stats);
     }

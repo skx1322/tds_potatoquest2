@@ -8,5 +8,7 @@ int main(){
 
     activeGame.startGame();
 
+    activeGame.startTutorial();
+    
     return 0;
 }
