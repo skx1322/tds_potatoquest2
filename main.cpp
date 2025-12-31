@@ -3,12 +3,17 @@
 
 using namespace std;
 
-int main(){
-    gameBoard activeGame; 
+int main()
+{
+    gameBoard activeGame;
 
-    activeGame.startGame();
+    while (activeGame.isRunning())
+    {
+        activeGame.startGame();
 
-    activeGame.startTutorial();
-    
+        activeGame.startTutorial();
+
+        activeGame.endGame();
+    }
     return 0;
 }

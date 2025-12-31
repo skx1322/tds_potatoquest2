@@ -9,6 +9,7 @@ entity::entity(entityStat stat)
     this->attributes = stat;
 }
 
+entityStat entity::getFullAttributes(){return this->attributes;};
 string entity::getName() { return this->attributes.entityName; };
 int entity::getHealth() { return this->attributes.entityHealth; };
 int entity::getDamage() { return this->attributes.entityDamage; };
@@ -35,6 +36,10 @@ void entity::rollDice(bool pity)
     int newRoll = diceRoll(pity);
     this->attributes.entityDice = newRoll;
 };
+
+void entity::setHP(int amount){
+    this->attributes.entityHealth = amount;
+}
 
 int entity::gainHP(int amount)
 {
@@ -122,12 +127,12 @@ public:
     }
     int enemyTurn(entity *target)
     {
-        this->enemyRoll();
-
         return attackEntity(target);
     }
 };
 
+// can create enemy here
+// {name, hp, damage, defense, startingDice}
 namespace enemyList
 {
     enemy *createPapadumSoldier()

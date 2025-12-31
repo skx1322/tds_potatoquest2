@@ -67,6 +67,8 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
 {
     combatQueue turnQueue;
 
+    int playerTemp = activePlayer->getHealth();
+
     turnQueue.enqueue(activePlayer);
     turnQueue.enqueue(activeEnemy);
 
@@ -80,6 +82,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
         if (current == activePlayer)
         {
             cout << activePlayer->getName() << " Turns!" << endl;
+            activePlayer->rollDice(false);
 
             // placeholder, auto attack for now
             activePlayer->attackEntity(activeEnemy);
@@ -97,11 +100,18 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
             turnQueue.enqueue(current);
         }
     }
-    if (activeEnemy->isAlive())
+    if (!activeEnemy->isAlive())
     {
-        cout<<activeEnemy->getName()<<" has been defeated!"<<endl;
+        // scenario if player win
+        winnerDisplay(activePlayer->getFullAttributes(), activeEnemy->getFullAttributes());
+
+        activePlayer->setHP(playerTemp);
+
+        cout<<"Restored Player HP back to "<<activePlayer->getHealth()<<endl;
+    } else {
+        // scenario if enemy win
+        winnerDisplay(activeEnemy->getFullAttributes(), activePlayer->getFullAttributes());
     }
-    
 }
 
 class gameBoard
@@ -109,10 +119,14 @@ class gameBoard
 private:
     player *currentPlayer;
     int currentStage;
-    bool isRunning;
+    bool activeGame;
 
 public:
-    gameBoard() : currentPlayer(), currentStage(1), isRunning(true) {}
+    gameBoard() : currentPlayer(), currentStage(1), activeGame(true) {}
+
+    player getPlayerProfile() { return *currentPlayer; };
+
+    bool isRunning() { return activeGame; };
 
     void startGame()
     {
@@ -128,7 +142,7 @@ public:
             loadGame();
             break;
         case 3:
-            isRunning = false;
+            activeGame = false;
             break;
         }
     }
@@ -158,5 +172,13 @@ public:
         enemy *tutorialEnemy = createPapadumSoldier();
 
         runCombat(currentPlayer, tutorialEnemy);
+    }
+
+    void endGame()
+    {
+        player progress = *currentPlayer;
+
+        saveProgress(progress);
+        this->activeGame = false;
     }
 };

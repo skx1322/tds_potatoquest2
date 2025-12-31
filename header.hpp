@@ -5,6 +5,7 @@ using namespace std;
 
 const int maxInventory = 12;
 
+const string itemsTemplate[] = {"Health Potion", "Trinket", "Bread"};
 struct entityStat
 {
     string entityName;
@@ -29,13 +30,17 @@ protected:
 public:
     entity(entityStat stat);
     string getName();
+    entityStat getFullAttributes();
     int getHealth();
     int getDamage();
     int getDefense();
     int getDice();
+
     bool isAlive();
     int receiveDamage(int amount);
     void rollDice(bool pity);
+
+    void setHP(int amount);
     int gainHP(int amount);
     int attackEntity(entity *target);
 };
