@@ -40,27 +40,6 @@ public:
     int attackEntity(entity *target);
 };
 
-class player : public entity
-{
-private:
-    playerStat playerAttribute;
-
-public:
-    player(entityStat eStat, playerStat pStat);
-    int getCoins();
-    int checkStage();
-    string getInventoryIndex(int index);
-    string getFullInventory();
-};
-
-class enemy : public entity
-{
-public:
-    enemy(entityStat stat);
-    void enemyRoll();
-    int enemyTurn(entity *target);
-};
-
 struct Node
 {
     entity *data;

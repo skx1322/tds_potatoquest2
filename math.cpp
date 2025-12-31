@@ -22,69 +22,6 @@ namespace mathSystem
         return randomNum;
     }
 };
-
-namespace dataStrucutre
-{
-    class combatQueue
-    {
-    private:
-        Node *front;
-        Node *back;
-
-    public:
-        combatQueue()
-        {
-            front = nullptr;
-            back = nullptr;
-        };
-
-        void enqueue(entity *ent)
-        {
-            Node *newNode = new Node(ent);
-            if (back == nullptr)
-            {
-                front = back = newNode;
-                return;
-            }
-
-            back->next = newNode;
-            back = newNode;
-        };
-
-        entity *dequeue()
-        {
-            if (front == nullptr)
-            {
-                return nullptr;
-            }
-
-            Node *temp = front;
-            entity *ent = temp->data;
-            front = front->next;
-
-            if (front == nullptr)
-            {
-                back = nullptr;
-            }
-            delete temp;
-            return ent;
-        }
-
-        bool isEmpty()
-        {
-            return front == nullptr;
-        }
-
-        ~combatQueue()
-        {
-            while (!isEmpty())
-            {
-                dequeue();
-            }
-        }
-    };
-};
-
 namespace algorithmLib
 {
     int binarySearch(string *inv, string target)

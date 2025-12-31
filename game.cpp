@@ -2,41 +2,106 @@
 #include "display.cpp"
 using namespace std;
 using namespace gameDisplay;
-using namespace dataStrucutre;
 using namespace enemyList;
 
-void runCombat(player* activePlayer, enemy* activeEnemy){
+class combatQueue
+{
+private:
+    Node *front;
+    Node *back;
+
+public:
+    combatQueue()
+    {
+        front = nullptr;
+        back = nullptr;
+    };
+
+    void enqueue(entity *ent)
+    {
+        Node *newNode = new Node(ent);
+        if (back == nullptr)
+        {
+            front = back = newNode;
+            return;
+        }
+
+        back->next = newNode;
+        back = newNode;
+    };
+
+    entity *dequeue()
+    {
+        if (front == nullptr)
+        {
+            return nullptr;
+        }
+
+        Node *temp = front;
+        entity *ent = temp->data;
+        front = front->next;
+
+        if (front == nullptr)
+        {
+            back = nullptr;
+        }
+        delete temp;
+        return ent;
+    }
+
+    bool isEmpty()
+    {
+        return front == nullptr;
+    }
+
+    ~combatQueue()
+    {
+        while (!isEmpty())
+        {
+            dequeue();
+        }
+    }
+};
+
+void runCombat(player *activePlayer, enemy *activeEnemy)
+{
     combatQueue turnQueue;
-    
+
     turnQueue.enqueue(activePlayer);
     turnQueue.enqueue(activeEnemy);
 
     while (activePlayer->isAlive() && activeEnemy->isAlive())
     {
-        entity* current = turnQueue.dequeue();
+        entity *current = turnQueue.dequeue();
         if (current == nullptr)
         {
             break;
         }
         if (current == activePlayer)
         {
-            cout<<activePlayer->getName()<<" Turns!"<<endl;
-            
+            cout << activePlayer->getName() << " Turns!" << endl;
+
             // placeholder, auto attack for now
             activePlayer->attackEntity(activeEnemy);
-        } else {
-            cout<<activeEnemy->getName()<<" Turns!"<<endl;
+        }
+        else
+        {
+            cout << activeEnemy->getName() << " Turns!" << endl;
             activeEnemy->enemyRoll();
 
             activeEnemy->enemyTurn(activePlayer);
         }
-        
+
         if (current->isAlive())
         {
             turnQueue.enqueue(current);
         }
     }
-       
+    if (activeEnemy->isAlive())
+    {
+        cout<<activeEnemy->getName()<<" has been defeated!"<<endl;
+    }
+    
 }
 
 class gameBoard
@@ -88,8 +153,9 @@ public:
         };
     }
 
-    void startTutorial(){
-        enemy* tutorialEnemy = createPapadumSoldier();
+    void startTutorial()
+    {
+        enemy *tutorialEnemy = createPapadumSoldier();
 
         runCombat(currentPlayer, tutorialEnemy);
     }
