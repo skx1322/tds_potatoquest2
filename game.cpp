@@ -1,8 +1,11 @@
 #include <iostream>
 #include "display.cpp"
+
 using namespace std;
 using namespace gameDisplay;
 using namespace enemyList;
+using namespace chronoConsole;
+using namespace systemConsole;
 
 class combatQueue
 {
@@ -82,10 +85,26 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
         if (current == activePlayer)
         {
             cout << activePlayer->getName() << " Turns!" << endl;
-            activePlayer->rollDice(false);
 
-            // placeholder, auto attack for now
-            activePlayer->attackEntity(activeEnemy);
+            int action = combatMenu(activePlayer->getFullAttributes());
+            switch (action)
+            {
+            case 1:
+                activePlayer->attackEntity(activeEnemy);
+                break;
+            case 2:
+                activePlayer->rollDice(false);
+                break;
+            case 3:
+                cout << "Skip Placeholder" << endl;
+                break;
+            case 4:
+                cout << "Skip Placeholder" << endl;
+                break;
+
+            default:
+                break;
+            }
         }
         else
         {
@@ -102,15 +121,18 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
     }
     if (!activeEnemy->isAlive())
     {
+        clearConsole();
         // scenario if player win
         winnerDisplay(activePlayer->getFullAttributes(), activeEnemy->getFullAttributes());
 
         activePlayer->setHP(playerTemp);
-
-        cout<<"Restored Player HP back to "<<activePlayer->getHealth()<<endl;
-    } else {
+    }
+    else
+    {
+        clearConsole();
         // scenario if enemy win
         winnerDisplay(activeEnemy->getFullAttributes(), activePlayer->getFullAttributes());
+        activePlayer->setHP(playerTemp);
     }
 }
 
@@ -158,6 +180,11 @@ public:
 
     void loadGame()
     {
+        cout<<"Loading player file..."<<endl;
+        delayOutputHalf();
+        
+        clearConsole();
+
         currentPlayer = loadSave();
         currentStage = currentPlayer->checkStage();
         if (currentPlayer == nullptr)
@@ -169,6 +196,10 @@ public:
 
     void startTutorial()
     {
+        tutorialStage();
+        
+        clearConsole();
+
         enemy *tutorialEnemy = createPapadumSoldier();
 
         runCombat(currentPlayer, tutorialEnemy);

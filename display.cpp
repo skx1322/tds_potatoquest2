@@ -1,5 +1,6 @@
 #include <iostream>
 #include "fs.cpp"
+#include "system.cpp"
 #include "header.hpp"
 using namespace std;
 
@@ -45,6 +46,7 @@ namespace gameDisplay
             }
         }
 
+        system("cls");
         return input;
     };
 
@@ -63,6 +65,22 @@ namespace gameDisplay
         return nameTemp;
     }
 
+    void tutorialStage()
+    {
+        int confirm; 
+        cout << "[---- ----- ----- ----- -----]" << endl;
+        cout << "This is the tutorial stage." << endl;
+        cout << "You'll be up against this enemy." << endl;
+        cout << "1. Press '1' to attack. Keep in mind, if your current dice is below 4, you won't be able to deal damage." << endl;
+        cout << "2. Since your dice is under 4, we recommend rolling for a better chance next time." << endl;
+        cout << "3. Inventory, you can check it to use items for your advantage though it take one turn to use." << endl;
+        cout << "4. Do not run (placeholder)." << endl;
+        cout << "[---- ----- ----- ----- -----]" << endl;
+
+        cout<<"Proceed? ";
+        cin>>confirm;
+    }
+
     void enemyTitle(enemy activeEnemy)
     {
         cout << "[---- ----- ----- ----- -----]" << endl;
@@ -77,7 +95,7 @@ namespace gameDisplay
         cout << "[Potato Quest Console]" << endl;
         cout << "['1' to Attack.]" << "['2' to Roll.]" << endl;
         cout << "['3' to Inventory.]" << "['4' to Run.]" << endl;
-        cout<< "Your Current Dice: "<< playerStat.entityDice <<endl;
+        cout << "Your Current Dice: " << playerStat.entityDice << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
     }
 
@@ -125,6 +143,6 @@ namespace gameDisplay
         cout << "Your Health: " << loser.entityHealth << " | Your Damage: " << loser.entityDamage << endl;
         cout << "Your Defense: " << loser.entityDefense << " | Your Final Dice: " << loser.entityDice << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
-    } 
-    
+    }
+
 }

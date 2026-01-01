@@ -4,12 +4,13 @@
 using namespace std;
 using namespace mathSystem;
 
+// entity class here
 entity::entity(entityStat stat)
 {
     this->attributes = stat;
 }
 
-entityStat entity::getFullAttributes(){return this->attributes;};
+entityStat entity::getFullAttributes() { return this->attributes; };
 string entity::getName() { return this->attributes.entityName; };
 int entity::getHealth() { return this->attributes.entityHealth; };
 int entity::getDamage() { return this->attributes.entityDamage; };
@@ -37,7 +38,8 @@ void entity::rollDice(bool pity)
     this->attributes.entityDice = newRoll;
 };
 
-void entity::setHP(int amount){
+void entity::setHP(int amount)
+{
     this->attributes.entityHealth = amount;
 }
 
@@ -62,74 +64,66 @@ int entity::attackEntity(entity *target)
     }
 };
 
-class player : public entity
+// player class here
+player::player(entityStat eStat, playerStat pStat) : entity(eStat)
 {
-private:
-    playerStat playerAttribute;
+    this->playerAttribute = pStat;
+}
 
-public:
-    player(entityStat eStat, playerStat pStat) : entity(eStat)
+int player::getCoins()
+{
+    return this->playerAttribute.coins;
+}
+
+int player::checkStage()
+{
+    return this->playerAttribute.currentStage;
+}
+
+string player::getInventoryIndex(int index)
+{
+    if (index < 0 || index >= maxInventory)
     {
-        this->playerAttribute = pStat;
-    }
-
-    int getCoins()
-    {
-        return this->playerAttribute.coins;
-    }
-
-    int checkStage()
-    {
-        return this->playerAttribute.currentStage;
-    }
-
-    string getInventoryIndex(int index)
-    {
-        if (index < 0 || index >= maxInventory)
-        {
-            throw logic_error("Invalid Capacity.");
-        };
-
-        if (this->playerAttribute.inventory[index].empty())
-        {
-            return "Empty";
-        }
-        else
-        {
-            return this->playerAttribute.inventory[index];
-        };
+        throw logic_error("Invalid Capacity.");
     };
 
-    string getFullInventory()
+    if (this->playerAttribute.inventory[index].empty())
     {
-        string tempString = "";
-        for (int i = 0; i < maxInventory; i++)
-        {
-            tempString += getInventoryIndex(i);
-            if (i < maxInventory - 1)
-            {
-                tempString += ", ";
-            }
-        }
-
-        return tempString;
+        return "Empty";
     }
+    else
+    {
+        return this->playerAttribute.inventory[index];
+    };
 };
 
-class enemy : public entity
+string player::getFullInventory()
 {
-public:
-    enemy(entityStat stat) : entity(stat) {};
+    string tempString = "";
+    for (int i = 0; i < maxInventory; i++)
+    {
+        tempString += getInventoryIndex(i);
+        if (i < maxInventory - 1)
+        {
+            tempString += ", ";
+        }
+    }
 
-    void enemyRoll()
-    {
-        rollDice(false);
-    }
-    int enemyTurn(entity *target)
-    {
-        return attackEntity(target);
-    }
-};
+    return tempString;
+}
+
+// enemy class here
+
+enemy::enemy(entityStat stat) : entity(stat) {};
+
+void enemy::enemyRoll()
+{
+    rollDice(false);
+}
+int enemy::enemyTurn(entity *target)
+{
+    return attackEntity(target);
+}
 
 // can create enemy here
 // {name, hp, damage, defense, startingDice}
