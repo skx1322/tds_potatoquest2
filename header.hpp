@@ -39,6 +39,7 @@ public:
     bool isAlive();
     int receiveDamage(int amount);
     void rollDice(bool pity);
+    void resetDice();
 
     void setHP(int amount);
     int gainHP(int amount);

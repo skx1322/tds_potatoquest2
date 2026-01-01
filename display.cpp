@@ -3,6 +3,7 @@
 #include "system.cpp"
 #include "header.hpp"
 using namespace std;
+using namespace systemConsole;
 
 namespace gameDisplay
 {
@@ -24,7 +25,7 @@ namespace gameDisplay
 
         while (true)
         {
-            cout << "Your Input: ";
+            cout << "\nYour Input: ";
             cin >> input;
             if (cin.fail())
             {
@@ -67,7 +68,7 @@ namespace gameDisplay
 
     void tutorialStage()
     {
-        int confirm; 
+        int confirm;
         cout << "[---- ----- ----- ----- -----]" << endl;
         cout << "This is the tutorial stage." << endl;
         cout << "You'll be up against this enemy." << endl;
@@ -77,44 +78,46 @@ namespace gameDisplay
         cout << "4. Do not run (placeholder)." << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
 
-        cout<<"Proceed? ";
-        cin>>confirm;
+        cout << "Proceed? ";
+        cin >> confirm;
     }
 
-    void enemyTitle(enemy activeEnemy)
+    void enemyTitle(enemy *enemyTarget)
     {
+        enemy activeEnemy = *enemyTarget;
+
         cout << "[---- ----- ----- ----- -----]" << endl;
         cout << "The " << activeEnemy.getName() << endl;
         cout << "Health: " << activeEnemy.getHealth() << "| Dice: " << activeEnemy.getDice() << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
     }
 
-    void combatChoice(entityStat playerStat)
+    void combatChoice(entityStat playerStat, entityStat enemyStat)
     {
         cout << "[---- -----" << playerStat.entityName << " ----- -----]" << endl;
-        cout << "[Potato Quest Console]" << endl;
+        cout << "[ Your Health: "<< playerStat.entityHealth << " vs Enemy Health: " << enemyStat.entityHealth <<" ]" << endl;
         cout << "['1' to Attack.]" << "['2' to Roll.]" << endl;
         cout << "['3' to Inventory.]" << "['4' to Run.]" << endl;
         cout << "Your Current Dice: " << playerStat.entityDice << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
     }
 
-    int combatMenu(entityStat stat)
+    int combatMenu(entityStat stat, entityStat enemy)
     {
         int input;
 
-        combatChoice(stat);
+        combatChoice(stat, enemy);
 
         while (true)
         {
-            cout << "Your Input: ";
+            cout << "\nYour Input: ";
             cin >> input;
             if (cin.fail())
             {
                 cin.clear();
                 cin.ignore(10000, '\n');
-                combatChoice(stat);
-                cout << "Insert Number Between 1 and 4." << endl;
+                // combatChoice(stat);
+                cout << "Insert Action Between 1 and 4." << endl;
                 continue;
             }
 
@@ -128,6 +131,7 @@ namespace gameDisplay
                 continue;
             }
         }
+        clearConsole();
 
         return input;
     };
@@ -140,8 +144,8 @@ namespace gameDisplay
         cout << "Your Defense: " << winner.entityDefense << " | Your Final Dice: " << winner.entityDice << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
         cout << loser.entityName << " has been defeated!" << endl;
-        cout << "Your Health: " << loser.entityHealth << " | Your Damage: " << loser.entityDamage << endl;
-        cout << "Your Defense: " << loser.entityDefense << " | Your Final Dice: " << loser.entityDice << endl;
+        cout << "Their Health: " << loser.entityHealth << " | Their Damage: " << loser.entityDamage << endl;
+        cout << "Their Defense: " << loser.entityDefense << " | Their Final Dice: " << loser.entityDice << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
     }
 

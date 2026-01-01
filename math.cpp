@@ -6,19 +6,22 @@ namespace mathSystem
 {
     int damageCalc(int dmg, int dice)
     {
-        if (4 > dice)
+        if (dice <= 4) // missed
         {
             return 0;
         }
-        else
+        else if (dice >= 20){ // super hit
+            return dmg * 2;
+        } else
         {
-            return floor(dmg * ((dice / 100) + 1));
+            float multiplier = 1.0f + (dice / 100.0f); // float multiplier
+            return floor(dmg * multiplier); // round down
         }
     };
 
     int diceRoll(bool pity)
     {
-        const int randomNum = (rand() % 20) + 1;
+        const int randomNum = (rand() % 20) + 1; // rng, 1-20, you don't want to roll less than 4 btw!
         return randomNum;
     }
 };

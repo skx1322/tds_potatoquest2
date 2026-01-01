@@ -78,19 +78,21 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
     while (activePlayer->isAlive() && activeEnemy->isAlive())
     {
         entity *current = turnQueue.dequeue();
+        bool tryEscape = false;
+
         if (current == nullptr)
         {
             break;
         }
         if (current == activePlayer)
         {
-            cout << activePlayer->getName() << " Turns!" << endl;
+            int action = combatMenu(activePlayer->getFullAttributes(), activeEnemy->getFullAttributes());
+            int damageDealt = 0;
 
-            int action = combatMenu(activePlayer->getFullAttributes());
             switch (action)
             {
             case 1:
-                activePlayer->attackEntity(activeEnemy);
+                damageDealt = activePlayer->attackEntity(activeEnemy);
                 break;
             case 2:
                 activePlayer->rollDice(false);
@@ -99,18 +101,23 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
                 cout << "Skip Placeholder" << endl;
                 break;
             case 4:
-                cout << "Skip Placeholder" << endl;
+                tryEscape = true;
                 break;
 
             default:
                 break;
             }
+            if (damageDealt > 0)
+            {
+                cout << "You dealt " << damageDealt << " to " << activeEnemy->getName() << ", their current health: " << activeEnemy->getHealth() << endl;
+                delayOutputHalf();
+            }
         }
         else
         {
-            cout << activeEnemy->getName() << " Turns!" << endl;
-            activeEnemy->enemyRoll();
+            enemyTitle(activeEnemy);
 
+            activeEnemy->enemyRoll();
             activeEnemy->enemyTurn(activePlayer);
         }
 
@@ -126,6 +133,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
         winnerDisplay(activePlayer->getFullAttributes(), activeEnemy->getFullAttributes());
 
         activePlayer->setHP(playerTemp);
+        activePlayer->resetDice();
     }
     else
     {
@@ -133,6 +141,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
         // scenario if enemy win
         winnerDisplay(activeEnemy->getFullAttributes(), activePlayer->getFullAttributes());
         activePlayer->setHP(playerTemp);
+        activePlayer->resetDice();
     }
 }
 
@@ -173,16 +182,16 @@ public:
     {
         string name = createUsername();
 
-        entityStat entityDefault = {name, 100, 10, 5, 0};
+        entityStat entityDefault = {name, 120, 10, 5, 0};
         playerStat playerDefault = {{}, 0, 1};
         currentPlayer = new player(entityDefault, playerDefault);
     }
 
     void loadGame()
     {
-        cout<<"Loading player file..."<<endl;
+        cout << "Loading player file..." << endl;
         delayOutputHalf();
-        
+
         clearConsole();
 
         currentPlayer = loadSave();
@@ -197,7 +206,6 @@ public:
     void startTutorial()
     {
         tutorialStage();
-        
         clearConsole();
 
         enemy *tutorialEnemy = createPapadumSoldier();

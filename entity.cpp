@@ -38,6 +38,10 @@ void entity::rollDice(bool pity)
     this->attributes.entityDice = newRoll;
 };
 
+void entity::resetDice(){
+    this->attributes.entityDice = 0;
+}
+
 void entity::setHP(int amount)
 {
     this->attributes.entityHealth = amount;
@@ -51,7 +55,9 @@ int entity::gainHP(int amount)
 
 int entity::attackEntity(entity *target)
 {
-    int attackDamage = damageCalc(this->getHealth(), this->getDice());
+    int attackDamage = damageCalc(this->getDamage(), this->getDice());
+
+    resetDice();
 
     if (attackDamage == 0)
     {
@@ -60,7 +66,7 @@ int entity::attackEntity(entity *target)
     else
     {
         int damageDealt = target->receiveDamage(attackDamage);
-        return attackDamage;
+        return damageDealt;
     }
 };
 
