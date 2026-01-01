@@ -86,6 +86,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
         }
         if (current == activePlayer)
         {
+            activePlayer->rollDice(false);
             int action = combatMenu(activePlayer->getFullAttributes(), activeEnemy->getFullAttributes());
             int damageDealt = 0;
 
@@ -95,7 +96,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
                 damageDealt = activePlayer->attackEntity(activeEnemy);
                 break;
             case 2:
-                activePlayer->rollDice(false);
+                activePlayer->rollDice(true);
                 break;
             case 3:
                 cout << "Skip Placeholder" << endl;

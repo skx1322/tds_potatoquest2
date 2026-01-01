@@ -9,4 +9,6 @@
 | math.cpp  | Any function that involves mathematical is to be stored here. |
 | fs.cpp  | All file system class or function is stored in this file. |
 | game.cpp | Main game class to begin game, save, load, stage and etc. Also include store class here in encounter. |
+| system.cpp | Contain code that interact with terminal system and time. |
+| test.cpp | To test specific function, mostly for debugging and checking result. |
 | miscellaneous.cpp | To store various function that is out of other file description focus. |
