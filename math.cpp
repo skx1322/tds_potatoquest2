@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include "header.hpp"
 using namespace std;
 
 namespace mathSystem
@@ -10,12 +11,14 @@ namespace mathSystem
         {
             return 0;
         }
-        else if (dice >= 20){ // super hit
+        else if (dice >= 20)
+        { // super hit
             return dmg * 2;
-        } else
+        }
+        else
         {
             float multiplier = 1.0f + (dice / 100.0f); // float multiplier
-            return floor(dmg * multiplier); // round down
+            return floor(dmg * multiplier);            // round down
         }
     };
 
@@ -30,7 +33,7 @@ namespace algorithmLib
     int binarySearch(string *inv, string target)
     {
         int first = 0;
-        int last = inv->size(); // to find array size/length
+        int last = inv->length(); // to find array size/length
         while (first <= last)
         {
             int center = first + (last - first) / 2;

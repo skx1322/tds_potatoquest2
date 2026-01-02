@@ -1,20 +1,15 @@
 // #include <iostream>
-// #include "game.cpp"
+// #include "math.cpp"
+
 // using namespace std;
-// using namespace mathSystem;
+// using namespace algorithmLib;
 
 // int main(){
 //     // int dice = diceRoll(false);
-//     enemy papadumSoldier = *createPapadumSoldier();
-//     int damageDealt = damageCalc(24, 20);
+//     string test[5] = {"Fu Hua", "Hua", "Senti", "Kiana", "Seele"};
+    
+//     int index = binarySearch(test ,"Hua");
 
-//     cout<< damageDealt << endl;
-
-//     papadumSoldier.receiveDamage(damageDealt);
-//     papadumSoldier.receiveDamage(damageDealt);
-//     papadumSoldier.receiveDamage(damageDealt);
-
-//     cout<< "their health: " << papadumSoldier.getHealth() << endl;
-
+//     cout<<"Index: "<<index<<endl;
 //     return 0;
 // }

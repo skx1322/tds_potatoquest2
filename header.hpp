@@ -3,7 +3,7 @@
 
 using namespace std;
 
-const int maxInventory = 12;
+const int maxInventory = 16;
 
 const string itemsTemplate[] = {"Health Potion", "Trinket", "Bread"};
 struct entityStat
@@ -46,22 +46,35 @@ public:
     int attackEntity(entity *target);
 };
 
-class player : public entity{
-    private: 
-        playerStat playerAttribute;
-    public: 
-        player(entityStat eStat, playerStat pStat);
-        int getCoins();
-        int checkStage();
-        string getInventoryIndex(int index);
-        string getFullInventory();
+class player : public entity
+{
+private:
+    playerStat playerAttribute;
+
+public:
+    player(entityStat eStat, playerStat pStat);
+    int checkStage();
+
+    int getCoins();
+    void addCoins(int amount);
+    void setCoins(int amount);
+    void removeCoins(int amount);
+
+    string getInventoryIndex(int index);
+    string getFullInventory();
+    int searchInventory(string target);
+    bool isInventoryFull();
+    void addItems(string items);
+    void removeItems(string target);
+    void useItems(string target);
 };
 
-class enemy : public entity {
-    public:
-        enemy(entityStat stat);
-        void enemyRoll();
-        int enemyTurn(entity *target);
+class enemy : public entity
+{
+public:
+    enemy(entityStat stat);
+    void enemyRoll();
+    int enemyTurn(entity *target);
 };
 
 struct Node

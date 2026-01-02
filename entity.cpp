@@ -81,6 +81,18 @@ int player::getCoins()
     return this->playerAttribute.coins;
 }
 
+void player::addCoins(int amount){
+    this->playerAttribute.coins += amount; 
+};
+
+void player::setCoins(int amount){
+    this->playerAttribute.coins = amount;
+}
+
+void player::removeCoins(int amount){
+    this->playerAttribute.coins -= amount;
+}
+
 int player::checkStage()
 {
     return this->playerAttribute.currentStage;
