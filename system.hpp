@@ -1,3 +1,6 @@
+#ifndef SYSTEM_HP
+#define SYSTEM_HPP
+
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -30,3 +33,5 @@ namespace chronoConsole{
         this_thread::sleep_for(500ms);
     }
 }
+
+#endif

@@ -1,6 +1,6 @@
 #include <iostream>
 #include "fs.cpp"
-#include "system.cpp"
+#include "system.hpp"
 #include "header.hpp"
 using namespace std;
 using namespace systemConsole;
@@ -95,7 +95,7 @@ namespace gameDisplay
     void combatChoice(entityStat playerStat, entityStat enemyStat)
     {
         cout << "[---- -----" << playerStat.entityName << " ----- -----]" << endl;
-        cout << "[ Your Health: "<< playerStat.entityHealth << " vs Enemy Health: " << enemyStat.entityHealth <<" ]" << endl;
+        cout << "[ Your Health: " << playerStat.entityHealth << " vs Enemy Health: " << enemyStat.entityHealth << " ]" << endl;
         cout << "['1' to Attack.]" << "['2' to Roll.]" << endl;
         cout << "['3' to Inventory.]" << "['4' to Run.]" << endl;
         cout << "Your Current Dice: " << playerStat.entityDice << endl;
@@ -147,6 +147,5 @@ namespace gameDisplay
         cout << "Their Health: " << loser.entityHealth << " | Their Damage: " << loser.entityDamage << endl;
         cout << "Their Defense: " << loser.entityDefense << " | Their Final Dice: " << loser.entityDice << endl;
         cout << "[---- ----- ----- ----- -----]" << endl;
-    }
-
+    };
 }

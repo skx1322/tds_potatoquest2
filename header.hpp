@@ -13,6 +13,7 @@ enum ItemType
     APPLE_JUICE,
     PROTEIN_SHAKE,
     DIVINE_KEY,
+    EMPTY,
 };
 
 ItemType stringToItem(string target)
@@ -27,12 +28,8 @@ ItemType stringToItem(string target)
         return PROTEIN_SHAKE;
     if (target == "Divine Key")
         return DIVINE_KEY;
-    if (target == "Empty")
-    {
-        return;
-    }
-    
-}
+    return EMPTY;
+};
 
 struct entityStat
 {
@@ -93,7 +90,8 @@ public:
     int searchInventory(string target);
     bool addItems(string items);
     void removeItems(int index);
-    void useItems(string target);
+    void useItems(int index);
+    void tryToUseItem();
 };
 
 class enemy : public entity

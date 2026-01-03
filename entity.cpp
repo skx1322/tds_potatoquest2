@@ -1,9 +1,12 @@
 #include <iostream>
 #include "math.cpp"
 #include "header.hpp"
+#include "miscellaneous.cpp"
+
 using namespace std;
 using namespace mathSystem;
 using namespace algorithmLib;
+using namespace inventoryDisplay;
 
 // entity class here
 entity::entity(entityStat stat)
@@ -158,6 +161,7 @@ bool player::addItems(string items)
         cout << "No slot available for items " << items << " !" << endl;
         return isItemAdded;
     }
+    return isItemAdded;
 };
 
 void player::removeItems(int index)
@@ -165,10 +169,9 @@ void player::removeItems(int index)
     playerAttribute.inventory[index] = "Empty";
 };
 
-void player::useItems(string target)
+void player::useItems(int index)
 {
     // check if exist first
-    int index = searchInventory(target);
     ItemType item = stringToItem(this->playerAttribute.inventory[index]);
 
     if (index != -1)
@@ -188,6 +191,11 @@ void player::useItems(string target)
         removeItems(index);
     }
 };
+
+void player::tryToUseItem(){
+    int index = displayInventory(this->playerAttribute.inventory);
+    useItems(index);
+}
 
 // enemy class here
 

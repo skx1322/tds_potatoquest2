@@ -88,6 +88,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
         {
             activePlayer->rollDice(false);
             int action = combatMenu(activePlayer->getFullAttributes(), activeEnemy->getFullAttributes());
+            int itemIndex;
             int damageDealt = 0;
 
             switch (action)
@@ -99,7 +100,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
                 activePlayer->rollDice(true);
                 break;
             case 3:
-                cout << "Skip Placeholder" << endl;
+                // itemIndex = displayInventory()
                 break;
             case 4:
                 tryEscape = true;
