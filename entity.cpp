@@ -3,6 +3,7 @@
 #include "header.hpp"
 using namespace std;
 using namespace mathSystem;
+using namespace algorithmLib;
 
 // entity class here
 entity::entity(entityStat stat)
@@ -38,7 +39,8 @@ void entity::rollDice(bool pity)
     this->attributes.entityDice = newRoll;
 };
 
-void entity::resetDice(){
+void entity::resetDice()
+{
     this->attributes.entityDice = 0;
 }
 
@@ -81,15 +83,18 @@ int player::getCoins()
     return this->playerAttribute.coins;
 }
 
-void player::addCoins(int amount){
-    this->playerAttribute.coins += amount; 
+void player::addCoins(int amount)
+{
+    this->playerAttribute.coins += amount;
 };
 
-void player::setCoins(int amount){
+void player::setCoins(int amount)
+{
     this->playerAttribute.coins = amount;
 }
 
-void player::removeCoins(int amount){
+void player::removeCoins(int amount)
+{
     this->playerAttribute.coins -= amount;
 }
 
@@ -105,7 +110,7 @@ string player::getInventoryIndex(int index)
         throw logic_error("Invalid Capacity.");
     };
 
-    if (this->playerAttribute.inventory[index].empty())
+    if (playerAttribute.inventory[index] == "" || playerAttribute.inventory[index] == "Empty")
     {
         return "Empty";
     }
@@ -129,6 +134,60 @@ string player::getFullInventory()
 
     return tempString;
 }
+
+int player::searchInventory(string target)
+{
+    return sequentialSearch(this->playerAttribute.inventory, target);
+};
+
+
+bool player::addItems(string items)
+{
+    bool isItemAdded = false;
+    for (int i = 0; i < maxInventory; i++)
+    {
+        if (playerAttribute.inventory[i] == "Empty")
+        {
+            playerAttribute.inventory[i] = items;
+            isItemAdded = true;
+            return isItemAdded;
+        }
+    }
+    if (!isItemAdded)
+    {
+        cout << "No slot available for items " << items << " !" << endl;
+        return isItemAdded;
+    }
+};
+
+void player::removeItems(int index)
+{
+    playerAttribute.inventory[index] = "Empty";
+};
+
+void player::useItems(string target)
+{
+    // check if exist first
+    int index = searchInventory(target);
+    ItemType item = stringToItem(this->playerAttribute.inventory[index]);
+
+    if (index != -1)
+    {
+        // more item soon
+        switch (item)
+        {
+        case STRAWBERRY_MILK:
+            gainHP(20);
+            break;
+        case BANANA_MILK:
+            gainHP(25);
+            break;
+        default:
+            break;
+        }
+        removeItems(index);
+    }
+};
 
 // enemy class here
 

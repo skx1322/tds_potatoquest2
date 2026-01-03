@@ -52,4 +52,14 @@ namespace algorithmLib
         }
         return -1;
     }
+    int sequentialSearch(string *inv, string target){
+        for (int i = 0; i < maxInventory; i++)
+        {
+            if (inv[i] == target)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

@@ -5,7 +5,35 @@ using namespace std;
 
 const int maxInventory = 16;
 
-const string itemsTemplate[] = {"Health Potion", "Trinket", "Bread"};
+// exception for snake case usage here
+enum ItemType
+{
+    STRAWBERRY_MILK,
+    BANANA_MILK,
+    APPLE_JUICE,
+    PROTEIN_SHAKE,
+    DIVINE_KEY,
+};
+
+ItemType stringToItem(string target)
+{
+    if (target == "Strawberry Milk")
+        return STRAWBERRY_MILK;
+    if (target == "Banana Milk")
+        return BANANA_MILK;
+    if (target == "Apple Juice")
+        return APPLE_JUICE;
+    if (target == "Protein Shake")
+        return PROTEIN_SHAKE;
+    if (target == "Divine Key")
+        return DIVINE_KEY;
+    if (target == "Empty")
+    {
+        return;
+    }
+    
+}
+
 struct entityStat
 {
     string entityName;
@@ -63,9 +91,8 @@ public:
     string getInventoryIndex(int index);
     string getFullInventory();
     int searchInventory(string target);
-    bool isInventoryFull();
-    void addItems(string items);
-    void removeItems(string target);
+    bool addItems(string items);
+    void removeItems(int index);
     void useItems(string target);
 };
 
