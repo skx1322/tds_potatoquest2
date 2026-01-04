@@ -1,10 +1,20 @@
 #include <iostream>
 #include <cmath>
+#include <ctime>
+
 #include "header.hpp"
 using namespace std;
 
 namespace mathSystem
 {
+
+    int randomizeSequent(int min, int max)
+    {
+        // srand(time(NULL));
+
+        return (rand() % max - min + 1) + min;
+    }
+
     int damageCalc(int dmg, int dice)
     {
         if (dice <= 4) // missed
@@ -52,7 +62,8 @@ namespace algorithmLib
         }
         return -1;
     }
-    int sequentialSearch(string *inv, string target){
+    int sequentialSearch(string *inv, string target)
+    {
         for (int i = 0; i < maxInventory; i++)
         {
             if (inv[i] == target)
