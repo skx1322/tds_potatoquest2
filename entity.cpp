@@ -1,12 +1,10 @@
 #include <iostream>
 #include "math.cpp"
 #include "header.hpp"
-#include "miscellaneous.cpp"
 
 using namespace std;
 using namespace mathSystem;
 using namespace algorithmLib;
-using namespace inventoryDisplay;
 
 // entity class here
 entity::entity(entityStat stat)
@@ -79,6 +77,10 @@ int entity::attackEntity(entity *target)
 player::player(entityStat eStat, playerStat pStat) : entity(eStat)
 {
     this->playerAttribute = pStat;
+}
+
+playerStat player::getFullPlayerAttributes(){
+    return playerAttribute;
 }
 
 int player::getCoins()
@@ -192,9 +194,17 @@ void player::useItems(int index)
     }
 };
 
-void player::tryToUseItem(){
-    int index = displayInventory(this->playerAttribute.inventory);
-    useItems(index);
+// void player::tryToUseItem(){
+//     int index = displayInventory(this->getFullAttributes().);
+//     useItems(index);
+// };
+
+bool player::getSavedRoll(){
+    return hasSavedRoll;
+};
+
+bool player::setSavedRoll(bool status){
+    hasSavedRoll = status;
 }
 
 // enemy class here

@@ -86,7 +86,7 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
         }
         if (current == activePlayer)
         {
-            activePlayer->rollDice(false);
+            bool hasRollDice = false;
             int action = combatMenu(activePlayer->getFullAttributes(), activeEnemy->getFullAttributes());
             int itemIndex;
             int damageDealt = 0;
@@ -94,13 +94,23 @@ void runCombat(player *activePlayer, enemy *activeEnemy)
             switch (action)
             {
             case 1:
+                if (!hasRollDice)
+                {
+                    activePlayer->rollDice(true);
+                }
+                
                 damageDealt = activePlayer->attackEntity(activeEnemy);
+
+                activePlayer->setSavedRoll(false);
                 break;
             case 2:
                 activePlayer->rollDice(true);
+                activePlayer->setSavedRoll(true);
                 break;
             case 3:
-                // itemIndex = displayInventory()
+                int itemIndex = displayInventory(activePlayer->getFullPlayerAttributes().inventory);
+
+                activePlayer->useItems(itemIndex);
                 break;
             case 4:
                 tryEscape = true;

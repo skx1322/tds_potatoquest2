@@ -75,9 +75,11 @@ class player : public entity
 {
 private:
     playerStat playerAttribute;
+    bool hasSavedRoll = false;
 
 public:
     player(entityStat eStat, playerStat pStat);
+    playerStat getFullPlayerAttributes();
     int checkStage();
 
     int getCoins();
@@ -92,6 +94,9 @@ public:
     void removeItems(int index);
     void useItems(int index);
     void tryToUseItem();
+
+    bool getSavedRoll();
+    bool setSavedRoll(bool status);
 };
 
 class enemy : public entity
